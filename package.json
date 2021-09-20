@@ -1,6 +1,16 @@
 {
   "name": "lecture-express-js",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
 }
