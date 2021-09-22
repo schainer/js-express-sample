@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const app = express();
 
@@ -12,6 +13,15 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 // app.use(morgan('combined'));
 app.use(cookieParser()); // res.cookie(key, value, option) && clearCookie / req.cookies => get Cookie
 app.use(express.json()); // Content-Type: application/json parser
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false
+  },
+  name: 'session-cookie'
+}));
 app.use(express.urlencoded({ extended: true })); // Content-Type: multipart/formData parser, file: multer
 
 
