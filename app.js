@@ -3,6 +3,7 @@ const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const multer = require('multer');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 // app.use(morgan('combined'));
 app.use(cookieParser()); // res.cookie(key, value, option) && clearCookie / req.cookies => get Cookie
 app.use(express.json()); // Content-Type: application/json parser
+app.use(express.urlencoded({ extended: true })); // Content-Type: multipart/formData parser, file: multer
 app.use(session({
   resave: false,
   saveUninitialized: false,
@@ -21,9 +23,21 @@ app.use(session({
     secure: false
   },
   name: 'session-cookie'
-}));
-app.use(express.urlencoded({ extended: true })); // Content-Type: multipart/formData parser, file: multer
+})); // req.session 으로 유저 고유 세션 영역 접근 가능
 
+// Multer Upload 객체
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads/');
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      done(null, path.basename(file.originalname) + Date.now() + ext);
+    },
+    limits: { fileSize: 5 * 1024 * 1024 }
+  })
+});
 
 // express get-set
 app.set('port', process.env.PORT || 3000);
@@ -36,8 +50,14 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   // res.send('hello express!')
-  throw new Error('Error Occured!');
+  // throw new Error('Error Occured!');
   res.sendFile(path.join(__dirname, 'resources/view/index.html'));
+});
+
+// single 에 넘기는 이름은 formData 의 파일 키값
+// single, array, fields, none
+app.post('/upload', upload.single('image'), (req, res) => {
+  // req.file
 });
 
 // 에러 핸들링 Middleware
