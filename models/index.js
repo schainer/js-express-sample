@@ -8,8 +8,10 @@ const Comment = require('./Comment');
 const db = {};
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 db.sequelize = sequelize;
+db.User = User;
+db.Comment = Comment;
 
-User.init();
-Comment.init();
+User.init(sequelize);
+Comment.init(sequelize);
 
 module.exports = db;
