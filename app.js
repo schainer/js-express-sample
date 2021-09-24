@@ -1,11 +1,20 @@
+'use strict';
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const multer = require('multer');
+const { sequelize } = require('./models');
 
 const app = express();
+
+sequelize.sync().then(() => {
+  console.log('Connection is good!');
+}).catch(err => {
+  console.error(err);
+});
 
 
 app.use(morgan('dev'));
