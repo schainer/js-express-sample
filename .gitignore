@@ -4,6 +4,7 @@ DS_Store/
 .vscode/
 secret/
 node_modules/
+data/
 
 *.env
 *.log

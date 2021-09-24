@@ -1,0 +1,19 @@
+version: "3"
+services:
+  local_mysql:
+    image: mysql:8.0
+    restart: always
+    tty: true
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    env_file:
+      - .env
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./storage/data/mysql:/var/lib/mysql
+    container_name: local_mysql
