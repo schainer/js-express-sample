@@ -26,6 +26,7 @@ app.use(cookieParser()); // res.cookie(key, value, option) && clearCookie / req.
 app.use(express.json()); // Content-Type: application/json parser
 app.use(express.urlencoded({ extended: true })); // Content-Type: multipart/formData parser, file: multer
 app.use(session({
+  secret: 'somewhat',
   resave: false,
   saveUninitialized: false,
   cookie: {
