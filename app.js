@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const multer = require('multer');
 const { sequelize } = require('./models');
+const router = require('./routes');
 
 const app = express();
 
@@ -57,6 +58,8 @@ app.use((req, res, next) => {
   next();
 });
 
+router(app);
+
 app.get('/', (req, res) => {
   // res.send('hello express!')
   // throw new Error('Error Occured!');
@@ -78,3 +81,5 @@ app.use((err, req, res, next) => {
 app.listen(app.get('port'), () => {
   console.log(`Listening on ${app.get('port')}`);
 });
+
+module.exports = app;
