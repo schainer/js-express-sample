@@ -1,14 +1,13 @@
 'use strict';
 const routeGroup = require('express').Router;
+const UserController = require('../app/controllers/UserController')
 module.exports = (router) => {
   // Default Routes
-  const defaultRouter = () => {
+  const userRouter = () => {
     const router = routeGroup({ mergeParams: true });
-    router.route('/').get((req, res) => {
-      return res.send('default route!');
-    });
+    router.route('/').get(UserController.getUser);
     return router;
   };
-  router.use('/default', defaultRouter());
+  router.use('/user', userRouter());
   return router;
 };
